@@ -149,9 +149,9 @@ def upload():
 def upload2():
     if request.method == 'POST':
         print("number of image files received: " + str(len(request.files)))
-        print(imagesFolder)
+        # print(imagesFolder)
         filename = '{}.jpg'.format(random.randint(0, 999999999))
-        print(filename)
+        # print(filename)
         file = request.files.get('fileupload')
         # filename = file.filename
         filepath = imagesFolder + filename
