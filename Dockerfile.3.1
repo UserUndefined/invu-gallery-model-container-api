@@ -1,0 +1,66 @@
+FROM alpine:3.6
+
+LABEL maintainer="userundefined"
+
+ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk
+ENV LOCAL_RESOURCES 2048,.5,1.0
+ENV BAZEL_VERSION 0.10.0
+RUN apk add --no-cache python2 python2-tkinter py2-numpy py2-numpy-f2py freetype libpng libjpeg-turbo imagemagick graphviz git
+RUN apk add --no-cache --virtual=.build-deps \
+        bash \
+        cmake \
+        curl \
+        freetype-dev \
+        g++ \
+        libjpeg-turbo-dev \
+        libpng-dev \
+        linux-headers \
+        make \
+        musl-dev \
+        openblas-dev \
+        openjdk8 \
+        patch \
+        perl \
+        python2-dev \
+        py-numpy-dev \
+        rsync \
+        sed \
+        swig \
+        zip \
+    && pip3 install -U pip \
+    && cd /tmp \
+    && pip3 install --no-cache-dir wheel \
+    && $(cd /usr/bin && ln -s python3 python)
+
+# Bazel download
+#RUN curl -SLO https://github.com/bazelbuild/bazel/releases/download/${BAZEL_VERSION}/bazel-${BAZEL_VERSION}-dist.zip \
+#    && mkdir bazel-${BAZEL_VERSION} \
+#    && unzip -qd bazel-${BAZEL_VERSION} bazel-${BAZEL_VERSION}-dist.zip
+
+# Bazel install
+#RUN cd bazel-${BAZEL_VERSION} \
+#    && sed -i -e 's/-classpath/-J-Xmx8192m -J-Xms128m -classpath/g' scripts/bootstrap/compile.sh \
+#    && bash compile.sh \
+#    && cp -p output/bazel /usr/bin/
+
+#RUN pip3 install Flask==1.0.2
+#RUN pip3 install --upgrade tensorflow
+# RUN pip install https://github.com/better/alpine-tensorflow/releases/download/alpine3.7-tensorflow1.7.0/tensorflow-1.7.0-cp36-cp36m-linux_x86_64.whl
+
+# RUN apt-get update -y
+# RUN apt-get install -y build-essential
+# RUN pip install --upgrade pip
+
+COPY . /app
+
+WORKDIR /app
+
+# RUN pip3 install -r ./requirements.txt
+RUN pip3 install Flask==1.0.2
+# RUN pip3 install tensorflow==1.8.0
+RUN pip3 install --upgrade tensorflow
+
+# Expose port 8000
+EXPOSE 8000
+
+CMD ["python", "app.py"]
