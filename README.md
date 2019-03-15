@@ -31,11 +31,10 @@ or
 `docker login`
 `docker push userundefined/invu-gallery-model-container-api:latest`
 
-
 ## Usage
 Once you've started the service, you can query it on `localhost:8000`. You can either hit it via a web browser, or use `curl` from the commandline. It takes a single parameter `file` which specifies the full path to a local image, so for example:
 
-`[POST] curl http://localhost:8000/upload2`
+`[POST] curl http://localhost:8000/upload`
 
 and provide the image in the payload.
 
@@ -44,6 +43,15 @@ and provide the image in the payload.
   "Tower Bridge": 0.99948, 
   "London Bridge": 0.56948, 
   "Milenium Bridge": 0.11948 
-  ]
 }
 ```
+
+# Enable Hyper V
+`dism.exe /Online /Enable-Feature:Microsoft-Hyper-V /All`
+`bcdedit /set hypervisorlaunchtype auto`
+Restart machine
+
+# Disable Hyper V
+`dism.exe /Online /Disable-Feature:Microsoft-Hyper-V /All`
+`bcdedit /set hypervisorlaunchtype off`
+Restart machine
