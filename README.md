@@ -52,7 +52,7 @@ and provide the image in the payload.
 Restart machine
 
 # Disable Hyper V
-`dism.exe /Online /Disable-Feature:Microsoft-Hyper-V /All`
+`dism.exe /Online /Disable-Feature:Microsoft-Hyper-V`
 `bcdedit /set hypervisorlaunchtype off`
 Restart machine
 
